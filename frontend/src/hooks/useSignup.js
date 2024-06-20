@@ -27,6 +27,7 @@ const useSignup = () => {
             localStorage.setItem("chat-user", JSON.stringify(data))
             // context
             setAuthUser(data);
+            toast.success("Login success")
 
         } catch (error) {
             toast.error(error.message);
@@ -38,7 +39,7 @@ const useSignup = () => {
     return { signup, loading }
 }
 
-export default useSignup
+export default useSignup;
 
 const handleInputErrors = ({ fullName, username, password, confirmPassword, gender }) => {
     if(!fullName || !username || !password || !confirmPassword || !gender) {
