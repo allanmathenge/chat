@@ -28,14 +28,20 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id);
         };
 
-        // Socket.io will be added here
-
+        
         // await conversation.save();
         // await newMessage.save();
-
+        
         // this will run in parallel
         await Promise.all([conversation.save(), newMessage.save()]);
+        // Socket.io will be added here
+        const receiverSocketId = getReceiverSocktetId(receiverId);
+        if (receiverSocketId) {
 
+            // io.to(<socket._id>) is used to send events to specific receivers
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
+        
         res.status(201).json(newMessage);
 
     } catch (error) {

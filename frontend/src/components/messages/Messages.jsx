@@ -2,11 +2,13 @@ import { useEffect, useRef } from "react";
 import Message from "./Message";
 import MessageSkeleton from "../skeletons/MessageSkeletons"
 import useGetMessages from "../../hooks/useGetMessages.js";
+import useListenMessages from "../../hooks/useListenMessages.js";
 
 const Messages = () => {
 
   const { loading, messages } = useGetMessages();
-  const lastMessageRef = useRef()
+  useListenMessages();
+  const lastMessageRef = useRef();
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,11 +30,10 @@ const Messages = () => {
           />
         </div>
       ))}
-
         {/* edge cases */}
         {loading && [...Array(3)].map((_, index) => <MessageSkeleton key={index} />)}
         {!loading && messages.length === 0 && (
-          <p className="text-center text-gray-200">Send message to start a conversation</p>
+          <p className="text-center text-red-200">Send message to start a conversation</p>
         )}
     </div>
   )
